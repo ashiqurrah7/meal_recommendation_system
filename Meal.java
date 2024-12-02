@@ -29,6 +29,11 @@ public class Meal {
     this.ingredients = ingredients;
   }
 
+  public Meal(String website, String name) {
+    this.website = website;
+    this.name = name;
+  }
+
   public String toString() {
     String formattedMeal = "Website: " + website +"\n Nutrition Values:\n";
 
