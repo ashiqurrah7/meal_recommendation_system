@@ -49,7 +49,7 @@ public class ExclusionHandler {
                     continue;
                 }
 
-                System.out.printf("%-85s | %-20s%n", meal.name, meal.ingredients);
+                System.out.printf("%-85s | %-20s%n", meal.name, meal.website);
             }
         } catch (IOException e) {
             System.err.println("Error reading the CSV file: " + e.getMessage());
