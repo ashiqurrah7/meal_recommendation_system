@@ -1,124 +1,220 @@
 import java.util.*;
 
 public class Main {
-    public static void main(String[] args) {
-      MealFilter filter = new MealFilter("meals.csv");
-      Scanner scanner = new Scanner(System.in);
-      
-      while (true) {
-          int choice;
 
-          System.out.println("\nChoose an option:");
-          System.out.println("1. Look for sites according to your dietary preference");
-          System.out.println("2. Look for meals according to your nutrition preference");
-          System.out.println("3. Exit");
-          System.out.print("Enter your choice (1-3): ");
+  private static void println(String message) {
+    System.out.println(message);
+  }
 
-          choice = scanner.nextInt();
+  private static void print(String message) {
+    System.out.print(message);
+  }
 
-          if (choice < 1 || choice > 3) {
-            System.out.println("Please select a valid option");
-          }
+  public static void main(String[] args) {
+    String mealsPath = "meals.csv";
+    MealFilter filter = new MealFilter(mealsPath);
+    MealsWithoutAllergens mealsWithoutAllergens = new MealsWithoutAllergens(mealsPath);
+    MealDescription mealDescription = new MealDescription(mealsPath);
+    BoyerMooreFrequency frequencySearch = new BoyerMooreFrequency(mealDescription.getWebsiteDescriptions());
+    Scanner scanner = new Scanner(System.in);
 
-          if (choice == 1) {
-            System.out.println("\nChoose dietary preference:");
-            System.out.println("1. Vegetarian");
-            System.out.println("2. Pescatarian");
-            System.out.println("3. Low Carb");
-            System.out.println("4. High Protein");
-            System.out.print("Enter your choice (1-4): ");
-            
-            int dietChoice = scanner.nextInt();
-            String preference = "";
-            
-            switch (dietChoice) {
-                case 1: preference = "vegetarian"; break;
-                case 2: preference = "pescatarian"; break;
-                case 3: preference = "low carb"; break;
-                case 4: preference = "high protein"; break;
-                default:
-                    System.out.println("Invalid choice");
-                    continue;
-            }
-            
-            DietaryFilter dietaryFilter = new DietaryFilter("dietary_options.csv");
-            List<String> matchingWebsites = dietaryFilter.getWebsitesForDiet(preference);
-            
-            if (matchingWebsites.isEmpty()) {
-                System.out.println("\nNo websites found matching your dietary preference.");
-            } else {
-                System.out.println("\nWebsites offering " + preference + " options:");
-                for (String website : matchingWebsites) {
-                    System.out.println("- " + website);
-                }
-            }
-          }
+    while (true) {
+      int choice;
 
-          if (choice == 2) {
-            System.out.println("1. Calories < x");
-            System.out.println("2. Fat < x");
-            System.out.println("3. Carbs < x");
-            System.out.println("4. Sugar < x");
-            System.out.println("5. Fiber > x");
-            System.out.println("6. Protein > x");
-            System.out.println("7. Sodium < x");
-            System.out.println("8. Exit");
-            
-            
-            System.out.print("Enter your choice (1-8): ");
+      println("\nChoose an option:");
+      println("1. Look for sites according to your dietary preference");
+      println("2. Look for meals according to your nutrition preference");
+      println("3. Look for meals according to your allergens");
+      println("4. Search for word frequencies");
+      println("5. Exit");
+      print("Enter your choice (1-5): ");
 
-            choice = scanner.nextInt();
+      choice = scanner.nextInt();
 
-            if (choice < 1 || choice > 8) {
-              System.out.println("Please select a valid option");
-              continue;
-            }
-
-            if (choice == 8) {
-              break;
-            }
-
-            System.out.print("Enter value: ");
-            double value = scanner.nextDouble();
-          
-            List<Meal> filteredMeals = null;
-            switch (choice) {
-              case 1:
-                  filteredMeals = filter.filterMeals("calories", value, true);
-                  break;
-              case 2:
-                  filteredMeals = filter.filterMeals("fat", value, true);
-                  break;
-              case 3:
-                  filteredMeals = filter.filterMeals("carbs", value, true);
-                  break;
-              case 4:
-                  filteredMeals = filter.filterMeals("sugar", value, true);
-                  break;
-              case 5:
-                  filteredMeals = filter.filterMeals("fiber", value, false);
-                  break;
-              case 6:
-                  filteredMeals = filter.filterMeals("protein", value, false);
-                  break;
-              case 7:
-                  filteredMeals = filter.filterMeals("sodium", value, true);
-                  break;
-            }
-          
-            if (filteredMeals != null) {
-                System.out.println("\nMatching meals:");
-                for (Meal meal : filteredMeals) {
-                    System.out.println("\n" + meal);
-                }
-                System.out.println("Total matching meals: " + filteredMeals.size());
-            }
-          }
-          if (choice == 3) {
-            break;
-          }
+      if (choice < 1 || choice > 5) {
+        println("Please select a valid option");
       }
-      
-      scanner.close();
+
+      if (choice == 1) {
+        println("\nChoose dietary preference:");
+        println("1. Vegetarian");
+        println("2. Pescatarian");
+        println("3. Low Carb");
+        println("4. High Protein");
+        print("Enter your choice (1-4): ");
+
+        int dietChoice = scanner.nextInt();
+        String preference = "";
+
+        switch (dietChoice) {
+          case 1:
+            preference = "vegetarian";
+            break;
+          case 2:
+            preference = "pescatarian";
+            break;
+          case 3:
+            preference = "low carb";
+            break;
+          case 4:
+            preference = "high protein";
+            break;
+          default:
+            println("Invalid choice");
+            continue;
+        }
+
+        DietaryFilter dietaryFilter = new DietaryFilter("dietary_options.csv");
+        List<String> matchingWebsites = dietaryFilter.getWebsitesForDiet(preference);
+
+        if (matchingWebsites.isEmpty()) {
+          println("\nNo websites found matching your dietary preference.");
+        } else {
+          println("\nWebsites offering " + preference + " options:");
+          for (String website : matchingWebsites) {
+            println("- " + website);
+          }
+        }
+      }
+
+      if (choice == 2) {
+        println("1. Calories < x");
+        println("2. Fat < x");
+        println("3. Carbs < x");
+        println("4. Sugar < x");
+        println("5. Fiber > x");
+        println("6. Protein > x");
+        println("7. Sodium < x");
+        println("8. Exit");
+
+        print("Enter your choice (1-8): ");
+
+        choice = scanner.nextInt();
+
+        if (choice < 1 || choice > 8) {
+          println("Please select a valid option");
+          continue;
+        }
+
+        if (choice == 8) {
+          break;
+        }
+
+        print("Enter value: ");
+        double value = scanner.nextDouble();
+
+        List<Meal> filteredMeals = null;
+        switch (choice) {
+          case 1:
+            filteredMeals = filter.filterMeals("calories", value, true);
+            break;
+          case 2:
+            filteredMeals = filter.filterMeals("fat", value, true);
+            break;
+          case 3:
+            filteredMeals = filter.filterMeals("carbs", value, true);
+            break;
+          case 4:
+            filteredMeals = filter.filterMeals("sugar", value, true);
+            break;
+          case 5:
+            filteredMeals = filter.filterMeals("fiber", value, false);
+            break;
+          case 6:
+            filteredMeals = filter.filterMeals("protein", value, false);
+            break;
+          case 7:
+            filteredMeals = filter.filterMeals("sodium", value, true);
+            break;
+        }
+
+        if (filteredMeals != null) {
+          println("\nMatching meals:");
+          for (Meal meal : filteredMeals) {
+            println("\n" + meal);
+          }
+          println("Total matching meals: " + filteredMeals.size());
+        }
+      }
+
+      if (choice == 3) {
+        scanner.nextLine();
+        System.out.println("Allergens List:");
+        mealsWithoutAllergens.getAllergensDictionary().forEach(System.out::println);
+
+        boolean repeatAllergenCheck = true;
+
+        while (repeatAllergenCheck) {
+          System.out.println("\nDo you have any allergen? (y/n)");
+          String hasAllergen = scanner.nextLine().trim().toLowerCase();
+
+          if (hasAllergen.equals("y")) {
+            System.out.println("Enter the allergen:");
+            String userInput = scanner.nextLine().trim();
+
+            // Find closest match
+            String closestMatch = mealsWithoutAllergens.findClosestMatch(userInput);
+
+            System.out.println("Did you mean \"" + closestMatch + "\"? (y/n)");
+            String confirmation = scanner.nextLine().trim().toLowerCase();
+
+            if (confirmation.equals("y")) {
+              // Get and display meals without the specified allergen
+              List<String[]> safeMeals = mealsWithoutAllergens.getMealsWithoutAllergen(closestMatch);
+
+              System.out.println("\nMeals without \"" + closestMatch + "\":");
+              safeMeals.forEach(meal -> {
+                System.out.println("Website: " + meal[0]);
+                System.out.println("Meal: " + meal[1]);
+                System.out.println("Ingredients: " + meal[2]);
+                System.out.println();
+              });
+
+              repeatAllergenCheck = false; // Exit after showing results
+            } else {
+              System.out.println("Do you want to try again? (y/n)");
+              String tryAgain = scanner.nextLine().trim().toLowerCase();
+              repeatAllergenCheck = tryAgain.equals("y");
+            }
+          } else {
+            System.out.println("No allergen specified. Exiting...");
+            repeatAllergenCheck = false;
+          }
+        }
+      }
+
+      if (choice == 4) {
+        scanner.nextLine();
+        boolean repeat = true;
+
+        while (repeat) {
+          System.out.println("Enter the string to search:");
+          String searchString = scanner.nextLine();
+
+          // Perform frequency search
+          Map<String, Integer> frequencies = frequencySearch.search(searchString);
+
+          // Display results sorted by frequency
+          System.out.println("\nSearch Results:");
+          frequencies.entrySet().stream()
+              .sorted((a, b) -> b.getValue().compareTo(a.getValue()))
+              .forEach(entry -> System.out.println(entry.getKey() + ": " + entry.getValue()));
+
+          // Ask if user wants to search for another word
+          System.out.println("\nDo you want to check another word? (y/n):");
+          String response = scanner.nextLine().trim().toLowerCase();
+          if (!response.equals("y")) {
+            repeat = false;
+            System.out.println("Goodbye!");
+          }
+        }
+      }
+
+      if (choice == 5) {
+        break;
+      }
+    }
+
+    scanner.close();
   }
 }
