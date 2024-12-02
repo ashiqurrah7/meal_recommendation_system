@@ -1,6 +1,7 @@
 public class Meal {
   String website;
   String name;
+  String ingredients;
   double calories;
   double fat;
   double carbs;
@@ -20,6 +21,12 @@ public class Meal {
       this.fiber = fiber;
       this.protein = protein;
       this.sodium = sodium;
+  }
+
+  public Meal(String website, String name, String ingredients) {
+    this.website = website;
+    this.name = name;
+    this.ingredients = ingredients;
   }
 
   public String toString() {

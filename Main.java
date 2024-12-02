@@ -26,12 +26,14 @@ public class Main {
       println("2. Look for meals according to your nutrition preference");
       println("3. Look for meals according to your allergens");
       println("4. Search for word frequencies");
-      println("5. Exit");
-      print("Enter your choice (1-5): ");
+      println("5. Search for meals");
+      println("6. View top 10 cheapest meal plans");
+      println("7. Exit");
+      print("Enter your choice (1-7): ");
 
       choice = scanner.nextInt();
 
-      if (choice < 1 || choice > 5) {
+      if (choice < 1 || choice > 7) {
         println("Please select a valid option");
       }
 
@@ -211,6 +213,16 @@ public class Main {
       }
 
       if (choice == 5) {
+        scanner.nextLine();
+        ExclusionHandler.handleMeals(scanner);
+      }
+
+      if (choice == 6) {
+        scanner.nextLine();
+        MealPlanHandler.findTop10CheapestMeals();
+      }
+
+      if (choice == 7) {
         break;
       }
     }
