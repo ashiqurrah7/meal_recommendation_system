@@ -25,19 +25,21 @@ public class Main {
         int choice;
 
         println("\nChoose an option:");
-        println("1. Look for sites according to your dietary preference");
-        println("2. Look for meals according to your nutrition preference");
-        println("3. Look for meals according to your allergens");
-        println("4. Search for word frequencies");
-        println("5. Search for meals");
-        println("6. Search for meals excluding an ingredient");
-        println("7. View top 10 cheapest meal plans");
-        println("8. Exit");
-        print("Enter your choice (1-8): ");
+        println("1.  Look for sites according to your dietary preference");
+        println("2.  Look for meals according to your nutrition preference");
+        println("3.  Look for meals according to your allergens");
+        println("4.  Search for word frequencies");
+        println("5.  Search for meals");
+        println("6.  Search for meals excluding an ingredient");
+        println("7.  View top 10 cheapest meal plans");
+        println("8.  Search for website and see website rankings");
+        println("9.  Get list of meal plans by site");
+        println("10. Exit");
+        print("Enter your choice (1-10): ");
 
         choice = scanner.nextInt();
 
-        if (choice < 1 || choice > 8) {
+        if (choice < 1 || choice > 10) {
           println("Please select a valid option");
           continue;
         }
@@ -242,8 +244,19 @@ public class Main {
           scanner.nextLine();
           MealPlanHandler.findTop10CheapestMeals();
         }
-  
+
         if (choice == 8) {
+          scanner.nextLine();
+          MostPopularWebsite.searchSiteAndDisplayRank(scanner);
+        }
+
+        if (choice == 9) {
+          scanner.nextLine();
+          MealPlanExtractor.getMealPlansBySite(scanner);
+        }
+  
+        if (choice == 10) {
+          println("\nThank you for using our meal recommendation system!");
           break;
         }
 
