@@ -224,14 +224,16 @@ public class Main {
   
         if (choice == 5) {
           scanner.nextLine();
-          println("Enter a meal to search, 'popular' to search for most popular meals, or 'exit' to quit");
+          println("\nEnter a meal to search, 'popular' to search for most popular meals, or 'exit' to quit");
           String query = scanner.nextLine().trim();
-          if (query.equalsIgnoreCase("exit")) {
-            continue;
-          } else if (query.equalsIgnoreCase("popular")) {
-            tracker.displayPopularMeals();
-          } else {
-            tracker.searchMeal(query);
+          while (!query.equalsIgnoreCase("exit")) {
+            if (query.equalsIgnoreCase("popular")) {
+              tracker.displayPopularMeals();
+            } else {
+              tracker.searchMeal(query);
+            }
+            println("\nEnter a meal to search, 'popular' to search for most popular meals, or 'exit' to quit");
+            query = scanner.nextLine().trim();
           }
         }
   

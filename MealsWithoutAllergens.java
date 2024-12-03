@@ -29,6 +29,8 @@ public class MealsWithoutAllergens {
 
                 // Populate allergen dictionary (handle null values gracefully)
                 if (!allergens.isEmpty()) {
+                    allergens = allergens.replace("Allergens:", "");
+
                     String[] allergenList = allergens.split(",\\s*");
                     allergensDictionary.addAll(Arrays.asList(allergenList));
                 }

@@ -35,7 +35,8 @@ public class Meal {
   }
 
   public String toString() {
-    String formattedMeal = "Website: " + website +"\n Nutrition Values:\n";
+    String formattedMeal = "Website: " + website + "\nName: " + name +
+                           "\n Nutrition Values:\n";
 
     if (calories == 0.0) {
       formattedMeal += "Calories: Not specified\n";
